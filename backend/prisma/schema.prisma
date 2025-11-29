@@ -1,0 +1,39 @@
+datasource db {
+  provider = "mysql" // works for MariaDB too
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id           Int      @id @default(autoincrement())
+  name         String
+  email        String   @unique
+  passwordHash String
+  createdAt    DateTime @default(now())
+  
+  gamesX       Game[]   @relation("PlayerX")
+  gamesO       Game[]   @relation("PlayerO")
+}
+
+model Game {
+  id        Int      @id @default(autoincrement())
+  playerX   User     @relation("PlayerX", fields: [playerXId], references: [id])
+  playerXId Int
+  playerO   User     @relation("PlayerO", fields: [playerOId], references: [id])
+  playerOId Int
+
+  // 9-character string like "XOX  O   " (spaces for empty)
+  board     String   @default("         ")
+
+  // "X" or "O"
+  nextTurn  String   @default("X")
+
+  // "IN_PROGRESS" | "X_WON" | "O_WON" | "DRAW"
+  status    String   @default("IN_PROGRESS")
+
+  winnerId  Int?     // optional, we'll set when game ends
+  createdAt DateTime @default(now())
+}

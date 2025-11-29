@@ -1,0 +1,19 @@
+-- CreateTable
+CREATE TABLE `Game` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `playerXId` INTEGER NOT NULL,
+    `playerOId` INTEGER NOT NULL,
+    `board` VARCHAR(191) NOT NULL DEFAULT '         ',
+    `nextTurn` VARCHAR(191) NOT NULL DEFAULT 'X',
+    `status` VARCHAR(191) NOT NULL DEFAULT 'IN_PROGRESS',
+    `winnerId` INTEGER NULL,
+    `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- AddForeignKey
+ALTER TABLE `Game` ADD CONSTRAINT `Game_playerXId_fkey` FOREIGN KEY (`playerXId`) REFERENCES `User`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `Game` ADD CONSTRAINT `Game_playerOId_fkey` FOREIGN KEY (`playerOId`) REFERENCES `User`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
