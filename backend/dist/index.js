@@ -246,8 +246,8 @@ app.post("/api/games/:id/move", async (req, res) => {
         res.status(500).json({ message: "Internal server error" });
     }
 });
-const PORT = 4000;
+const PORT = process.env.PORT ? Number(process.env.PORT) : 4000;
 app.listen(PORT, () => {
-    console.log(`Backend running at http://localhost:${PORT}`);
+    console.log(`Backend running on port ${PORT}`);
 });
 //# sourceMappingURL=index.js.map
